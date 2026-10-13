@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UYDA — Filiallar va menejerlar</title>
+<meta name="description" content="UYDA do'konlari: filiallar manzili, ish vaqti va menejerlar bilan aloqa.">
+<meta name="theme-color" content="#FF4800">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="UYDA — Filiallar va menejerlar">
+<meta property="og:description" content="Filiallar manzili, ish vaqti va menejerlar bilan aloqa">
+<style>
+  :root{
+    --brand:#FF4800; --brand-dark:#FF4800; --brand-soft:#FFEFD9;
+    --bg:#FFF4E6; --card:#FFFFFF; --ink:#000000; --muted:#5E5650; --line:#FFE6C7;
+    --ok:#1F9D55; --ok-soft:#E3F5EA; --off:#9A8F89; --off-soft:#F1EEEC;
+    --radius:30px 14px 34px 8px;
+    --leaf:22px 11px 26px 6px; --leaf-sm:16px 8px 19px 5px;
+    --grad:#FF4800;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:480px;margin:0 auto;padding:0 16px 40px}
+
+  /* Header */
+  .hero{background:var(--grad);color:#fff;border-radius:0 0 32px 32px;padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden}
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+  .hero::before{width:220px;height:220px;top:-90px;right:-70px}
+  .hero::after{width:160px;height:160px;bottom:-80px;left:-50px}
+  .logo{display:inline-flex;position:relative}
+  .logo-svg{width:170px;height:auto}
+  .logo-mark{width:52px;height:52px;border-radius:16px;background:#fff;display:grid;place-items:center}
+  .logo-word{font-size:34px;font-weight:700;letter-spacing:-.5px}
+  .tagline{margin-top:14px;font-size:15px;font-weight:500;opacity:.95;position:relative}
+  .tagline small{display:block;font-weight:400;opacity:.8;font-size:13px;margin-top:2px}
+  .lang{position:absolute;top:14px;right:14px;display:flex;background:rgba(255,255,255,.18);border-radius:var(--leaf-sm);padding:3px;z-index:2}
+  .lang button{border:0;background:transparent;color:#fff;font:600 12px "Helvetica Neue",Helvetica,Arial,sans-serif;padding:5px 10px;border-radius:12px 6px 14px 4px;cursor:pointer}
+  .lang button.on{background:#fff;color:var(--brand)}
+
+  /* Quick links */
+  .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .sec-title{font-size:15px;font-weight:700;margin:26px 0 12px;text-align:center}
+  .q{background:var(--card);border-radius:var(--leaf);padding:12px 4px 10px;text-align:center;box-shadow:0 6px 18px rgba(255,72,0,.12);transition:transform .15s}
+  .q:active{transform:scale(.96)}
+  .q .ic{width:40px;height:40px;border-radius:var(--leaf-sm);background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin:0 auto 6px}
+  .q span{font-size:11.5px;font-weight:500;color:var(--ink)}
+
+  /* Delivery */
+  .delivery{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid #FF4800;border-radius:var(--radius);padding:12px 14px;margin-top:26px}
+  .delivery .ic{flex:none;width:40px;height:40px;border-radius:var(--leaf-sm);background:var(--grad);color:#fff;display:grid;place-items:center}
+  .delivery b{display:block;font-size:14px}
+  .delivery span{font-size:12.5px;color:var(--muted)}
+
+  /* Tabs */
+  .tabs{display:flex;background:#FFFFFF;border-radius:var(--leaf);padding:4px;margin:-24px 0 14px;box-shadow:0 6px 18px rgba(255,72,0,.15);position:sticky;top:8px;z-index:5}
+  .tab{flex:1;border:0;background:transparent;font:600 14px "Helvetica Neue",Helvetica,Arial,sans-serif;color:#000;padding:11px;border-radius:var(--leaf-sm);cursor:pointer;transition:background .2s,color .2s}
+  .tab.on{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(255,72,0,.3)}
+  .panel{display:none}
+  .panel.on{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* Branch cards */
+  .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(42,32,28,.05);border:1px solid var(--line)}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card h3{font-size:17px;font-weight:600;line-height:1.25}
+  .landmark{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-top:4px}
+  .status{flex:none;font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:12px 6px 14px 4px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .status.open{background:var(--ok-soft);color:var(--ok)}
+  .status.closed{background:var(--off-soft);color:var(--off)}
+  .hours{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;background:#FFF4E6;border-radius:var(--leaf-sm);padding:8px 12px}
+  .hours b{font-weight:600}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:600;padding:12px 10px;border-radius:var(--leaf);transition:transform .15s,background .15s}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:var(--grad);color:#fff}
+  .btn.primary:hover{filter:brightness(.95)}
+  .btn.ghost{background:var(--brand-soft);color:#000}
+
+  /* Manager cards */
+  .mgr{display:flex;align-items:center;gap:14px}
+  .avatar{flex:none;width:52px;height:52px;border-radius:var(--leaf);background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:700;font-size:18px}
+  .mgr-info{flex:1;min-width:0}
+  .mgr-info h3{font-size:15.5px}
+  .mgr-info p{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .icon-btn{flex:none;width:44px;height:44px;border-radius:var(--leaf-sm);display:grid;place-items:center}
+  .icon-btn.tg{background:var(--grad);color:#fff}
+  .icon-btn.ph{background:var(--brand-soft);color:#000}
+  .mgr-actions{display:flex;gap:8px}
+  .note{font-size:12.5px;color:var(--muted);text-align:center;margin:4px 0 14px}
+
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+  footer a{color:var(--brand);font-weight:600}
+  svg{display:block}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="lang" role="group" aria-label="Til">
+    <button data-lang="uz" class="on">UZ</button>
+    <button data-lang="ru">RU</button>
+  </div>
+  <div class="logo"><svg class="logo-svg" role="img" aria-label="Uyda" viewBox="0 0 410 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M187.587 37.9384V84.19C187.587 99.0826 195.212 103.492 203.565 103.492C213.178 103.492 219.18 98.2762 219.18 84.19V37.9384H235.976V83.3576C235.976 109.904 220.44 116.668 203.331 116.668C185.859 116.668 170.777 109.605 170.777 83.6827V37.9384H187.587ZM393.096 89.0285C391.784 89.0285 388.666 89.0285 386.548 89.0285C376.845 89.0285 373.233 91.994 373.233 97.6129C373.233 101.827 375.805 105.378 381.625 105.378C391.823 105.378 393.096 98.2502 393.096 90.5503V89.0155V89.0285ZM408.801 100.5C408.801 106.054 409.256 114.157 409.619 115.562H394.226C393.771 114.404 393.407 111.335 393.407 109.865C391.29 113.143 387.315 116.915 377.013 116.915C362.971 116.915 357.06 107.68 357.06 98.6404C357.06 85.3606 367.712 79.2345 384.782 79.2345C387.627 79.2345 391.147 79.2345 393.096 79.2345V75.6707C393.096 71.5346 391.602 67.4505 384.106 67.4505C377.338 67.4505 375.844 70.3379 375.078 74.5651H359.775C360.633 64.2118 367.05 55.8225 384.743 55.9266C400.318 56.0306 408.801 62.1177 408.801 75.9958V100.5ZM311.607 86.4792C311.607 97.834 316.036 103.986 323.935 103.986C334.989 103.986 336.262 94.7384 336.262 86.3621C336.262 76.399 334.859 68.8552 324.35 68.8552C315.867 68.8552 311.62 75.4626 311.62 86.4792H311.607ZM351.747 33.3731V99.5378C351.747 104.845 351.747 110.216 351.877 115.549H336.392C336.081 113.806 335.756 110.789 335.665 109.462C332.82 114.053 327.806 116.902 319.141 116.902C304.423 116.902 295.031 105.066 295.031 86.8824C295.031 68.9462 305.007 55.9136 321.492 55.9136C329.845 55.9136 334.353 58.8791 335.665 61.4934V33.3601H351.734L351.747 33.3731ZM256.124 57.2793C262.126 77.3875 267.361 95.3367 268.309 100.721H268.4C269.66 94.8425 273.09 81.7838 280.053 57.2793H296.083L276.532 117.24C270.934 134.005 266.335 139 252.331 139C250.889 139 247.551 138.883 244.797 138.558V125.59C245.875 125.72 247.642 125.824 248.954 125.824C254.864 125.824 257.852 123.769 260.061 117.331L238.847 57.2663H256.137L256.124 57.2793Z" fill="#FFFFFF"/>
+<path d="M71.1486 95.9467C90.0627 95.9467 105.456 80.5469 105.456 61.6092V29.4698L79.4495 3.44351C74.8509 -1.14784 67.4463 -1.14784 62.8347 3.44351L36.8279 29.4698V61.6092C36.8279 80.5339 52.2215 95.9467 71.1356 95.9467H71.1486ZM138.868 62.9229L114.848 38.8736V61.6092C114.848 85.7235 95.2589 105.351 71.1486 105.351C47.0903 105.351 27.4488 85.7235 27.4488 61.6092V38.8736L3.42948 62.9229C1.26007 65.134 0 68.1125 0 71.2341V125.849C0 132.339 5.28711 137.594 11.7434 137.594H130.567C137.023 137.594 142.31 132.326 142.31 125.849V71.2341C142.31 68.1125 141.05 65.134 138.881 62.9229H138.868Z" fill="#FFFFFF"/>
+</svg></div>
+  <p class="tagline"><span data-i18n="tag">Uy qulayligi uchun eng yaxshi tanlov!</span>
+    <small data-i18n="tag2">Idish-tovoq va uy buyumlari</small></p>
+</header>
+
+<main class="wrap">
+
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" role="tab" data-tab="branches" aria-selected="true" data-i18n="tabB">Filiallar</button>
+    <button class="tab" role="tab" data-tab="managers" aria-selected="false" data-i18n="tabM">Menejerlar</button>
+  </div>
+
+  <section class="panel on" id="branches" role="tabpanel"></section>
+  <section class="panel" id="managers" role="tabpanel">
+    <p class="note" data-i18n="mgrNote">Buyurtma va savollar bo'yicha filial menejerlariga qo'ng'iroq qiling</p>
+  </section>
+
+  <div class="delivery">
+    <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v12H1zM14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg></div>
+    <div><b data-i18n="del1">O'zbekiston bo'ylab yetkazib berish mavjud</b><span data-i18n="del2">Buyurtma berish uchun aloqaga chiqing</span></div>
+  </div>
+
+  <h2 class="sec-title" data-i18n="social">Ijtimoiy tarmoqlarimiz:</h2>
+  <nav class="quick" aria-label="Tezkor havolalar">
+    <a class="q" href="https://instagram.com/uyda_uz" target="_blank" rel="noopener">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      <span>Instagram</span></a>
+    <a class="q" href="https://t.me/uyda_shop" target="_blank" rel="noopener">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.3 2.9 11.4c-1.3.5-1.2 1.3-.2 1.6l4.8 1.5 1.8 5.6c.2.6.5.8 1 .8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.5zM9.6 14.2l8.4-5.3c.4-.2.7-.1.4.2l-7.2 6.5-.3 3.1z"/></svg></div>
+      <span>Telegram</span></a>
+    <a class="q" href="tel:+998559012525">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div>
+      <span data-i18n="call">Call-markaz</span></a>
+    <a class="q" href="https://uyda.com.uz/" target="_blank" rel="noopener">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+      <span data-i18n="site">Sayt</span></a>
+  </nav>
+
+  <footer>© UYDA · <a href="tel:+998559012525">55 901 25 25</a></footer>
+</main>
+
+<script>
+/* ==== Ma'lumotlar: shu yerda tahrirlanadi ==== */
+const BRANCHES = [
+  {name:"Chimgan", ru:"Чимган", landmark:"Ekobozor yonida", landmarkRu:"Рядом с Экобазаром",
+   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/MkWYao6CX9MfQu3r7",
+   phone:"+998998711353", tg:"https://t.me/uyda_uz_admin", tgName:"@uyda_uz_admin"},
+  {name:"Chilonzor (Oqtepa)", ru:"Чиланзар (Актепа)", landmark:"Lutfiy ko'chasi", landmarkRu:"ул. Лутфий",
+   open:"09:00", close:"19:00", map:"https://maps.app.goo.gl/vqVWbatQGwAnj8sb7",
+   phone:"+998998771353", tg:"https://t.me/UYDA_CHILONZOR", tgName:"@UYDA_CHILONZOR"},
+  {name:"Integro", ru:"Интегро", landmark:"Chilonzor metrosi yonida", landmarkRu:"Рядом с м. Чиланзар",
+   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/KeT3hNPAnVKnYhVZA",
+   phone:"+998951501353", tg:"https://t.me/UYDA_INTEGRO", tgName:"@UYDA_INTEGRO"},
+  {name:"Yunusobod", ru:"Юнусабад", landmark:"Shahriston metrosi yonida", landmarkRu:"Рядом с м. Шахристан",
+   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/WXAEPhUBLyQNLoA16",
+   phone:"+998998751353", tg:"https://t.me/UYDA_YUNUSOBOD", tgName:"@UYDA_YUNUSOBOD"},
+  {name:"Sergeli", ru:"Сергели", landmark:"Goldenlife savdo markazi", landmarkRu:"ТЦ Goldenlife",
+   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/dybABDKxzseaQJgGA",
+   phone:"+998958721353", tg:"https://t.me/UYDA_SERGILI", tgName:"@UYDA_SERGILI"}
+];
+
+const T = {
+  uz:{tag:"Uy qulayligi uchun eng yaxshi tanlov!",tag2:"Idish-tovoq va uy buyumlari",call:"Call-markaz",site:"Sayt",
+      del1:"O'zbekiston bo'ylab yetkazib berish mavjud",del2:"Buyurtma berish uchun aloqaga chiqing",tabB:"Filiallar",social:"Ijtimoiy tarmoqlarimiz:",tabM:"Menejerlar",
+      mgrNote:"Buyurtma va savollar bo'yicha filial menejerlariga qo'ng'iroq qiling",open:"Hozir ochiq",closed:"Yopiq",
+      hours:"Ish vaqti",daily:"har kuni",map:"Xaritada",callBtn:"Qo'ng'iroq",branch:"filiali",manager:"Menejer"},
+  ru:{tag:"Лучший выбор для уюта в доме!",tag2:"Посуда и товары для дома",call:"Колл-центр",site:"Сайт",
+      del1:"Доставка по всему Узбекистану",del2:"Для заказа свяжитесь с нами",tabB:"Филиалы",social:"Наши соцсети:",tabM:"Менеджеры",
+      mgrNote:"По заказам и вопросам звоните менеджерам филиалов",open:"Сейчас открыто",closed:"Закрыто",
+      hours:"Время работы",daily:"ежедневно",map:"На карте",callBtn:"Позвонить",branch:"филиал",manager:"Менеджер"}
+};
+let lang = "uz";
+
+const I = {
+  pin:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s7-7.1 7-12.5A7 7 0 0 0 5 9.5C5 14.9 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5E5650" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  map:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s7-7.1 7-12.5A7 7 0 0 0 5 9.5C5 14.9 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  phone:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+  tg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.3 2.9 11.4c-1.3.5-1.2 1.3-.2 1.6l4.8 1.5 1.8 5.6c.2.6.5.8 1 .8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.5zM9.6 14.2l8.4-5.3c.4-.2.7-.1.4.2l-7.2 6.5-.3 3.1z"/></svg>'
+};
+
+function tashkentMinutes(){
+  const p = new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Tashkent",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());
+  const h = +p.find(x=>x.type==="hour").value, m = +p.find(x=>x.type==="minute").value;
+  return (h%24)*60+m;
+}
+const toMin = s => { const [h,m]=s.split(":").map(Number); return h*60+m; };
+const prettyPhone = p => p.replace(/^\+998(\d{2})(\d{3})(\d{2})(\d{2})$/,"+998 $1 $2 $3 $4");
+
+function render(){
+  const t = T[lang], now = tashkentMinutes();
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { const k=el.dataset.i18n; if(t[k]) el.textContent=t[k]; });
+
+  document.getElementById("branches").innerHTML = BRANCHES.map(b => {
+    const isOpen = now >= toMin(b.open) && now < toMin(b.close);
+    const name = lang==="ru" ? b.ru : b.name;
+    return `<article class="card">
+      <div class="card-top">
+        <div><h3>${name}</h3><div class="landmark">${I.pin}${lang==="ru"?b.landmarkRu:b.landmark}</div></div>
+        <span class="status ${isOpen?"open":"closed"}">${isOpen?t.open:t.closed}</span>
+      </div>
+      <div class="hours">${I.clock}<span>${t.hours}: <b>${b.open} – ${b.close}</b>, ${t.daily}</span></div>
+      <div class="actions">
+        <a class="btn primary" href="${b.map}" target="_blank" rel="noopener">${I.map}${t.map}</a>
+        <a class="btn ghost" href="tel:${b.phone}">${I.phone}${t.callBtn}</a>
+      </div>
+    </article>`;
+  }).join("");
+
+  const note = `<p class="note" data-i18n="mgrNote">${t.mgrNote}</p>`;
+  document.getElementById("managers").innerHTML = note + BRANCHES.map(b => {
+    const name = lang==="ru" ? b.ru : b.name;
+    return `<article class="card mgr">
+      <div class="avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+      <div class="mgr-info"><h3>${name}</h3><p>${t.manager} · ${b.tgName}</p><p>${prettyPhone(b.phone)}</p></div>
+      <div class="mgr-actions">
+        <a class="icon-btn ph" href="tel:${b.phone}" aria-label="${t.callBtn}">${I.phone}</a>
+        <a class="icon-btn tg" href="${b.tg}" target="_blank" rel="noopener" aria-label="Telegram">${I.tg}</a>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(b => { b.classList.toggle("on", b===btn); b.setAttribute("aria-selected", b===btn); });
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id===btn.dataset.tab));
+}));
+document.querySelectorAll(".lang button").forEach(btn => btn.addEventListener("click", () => {
+  lang = btn.dataset.lang;
+  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b===btn));
+  render();
+}));
+render();
+setInterval(render, 60000);
+</script>
+</body>
+</html>
