@@ -78,6 +78,13 @@
   .btn.primary{background:var(--grad);color:#fff}
   .btn.primary:hover{filter:brightness(.95)}
   .btn.ghost{background:var(--brand-soft);color:#000}
+  button.btn{border:0;font-family:inherit;cursor:pointer;width:100%}
+  .maps{display:none;grid-template-columns:1fr;gap:8px;margin-top:8px}
+  .card.maps-on .maps{display:grid;animation:fade .2s ease}
+  .btn.map-opt{background:#fff;color:#000;border:1.5px solid var(--brand)}
+  .btn.map-opt i{font-style:normal;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700}
+  .btn.map-opt .g{background:#1A73E8}
+  .btn.map-opt .y{background:#FC3F1D}
 
   /* Manager cards */
   .mgr{display:flex;align-items:center;gap:14px}
@@ -152,19 +159,19 @@
 /* ==== Ma'lumotlar: shu yerda tahrirlanadi ==== */
 const BRANCHES = [
   {name:"Chimgan", ru:"Чимган", landmark:"Ekobozor yonida", landmarkRu:"Рядом с Экобазаром",
-   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/MkWYao6CX9MfQu3r7",
+   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/MkWYao6CX9MfQu3r7", ymap:"https://yandex.uz/maps/-/CXb-MQ1-",
    phone:"+998998711353", tg:"https://t.me/uyda_uz_admin", tgName:"@uyda_uz_admin"},
   {name:"Chilonzor (Oqtepa)", ru:"Чиланзар (Актепа)", landmark:"Lutfiy ko'chasi", landmarkRu:"ул. Лутфий",
-   open:"09:00", close:"19:00", map:"https://maps.app.goo.gl/vqVWbatQGwAnj8sb7",
+   open:"09:00", close:"19:00", map:"https://maps.app.goo.gl/vqVWbatQGwAnj8sb7", ymap:"https://yandex.uz/maps/-/CXb-E-6V",
    phone:"+998998771353", tg:"https://t.me/UYDA_CHILONZOR", tgName:"@UYDA_CHILONZOR"},
   {name:"Integro", ru:"Интегро", landmark:"Chilonzor metrosi yonida", landmarkRu:"Рядом с м. Чиланзар",
-   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/KeT3hNPAnVKnYhVZA",
+   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/KeT3hNPAnVKnYhVZA", ymap:"https://yandex.uz/maps/-/CXb-ATYZ",
    phone:"+998951501353", tg:"https://t.me/UYDA_INTEGRO", tgName:"@UYDA_INTEGRO"},
   {name:"Yunusobod", ru:"Юнусабад", landmark:"Shahriston metrosi yonida", landmarkRu:"Рядом с м. Шахристан",
-   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/WXAEPhUBLyQNLoA16",
+   open:"09:00", close:"21:00", map:"https://maps.app.goo.gl/WXAEPhUBLyQNLoA16", ymap:"https://yandex.uz/maps/-/CXb-ES7u",
    phone:"+998998751353", tg:"https://t.me/UYDA_YUNUSOBOD", tgName:"@UYDA_YUNUSOBOD"},
   {name:"Sergeli", ru:"Сергели", landmark:"Goldenlife savdo markazi", landmarkRu:"ТЦ Goldenlife",
-   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/dybABDKxzseaQJgGA",
+   open:"10:00", close:"22:00", map:"https://maps.app.goo.gl/dybABDKxzseaQJgGA", ymap:"https://yandex.uz/maps/-/CXb-I8p7",
    phone:"+998958721353", tg:"https://t.me/UYDA_SERGILI", tgName:"@UYDA_SERGILI"}
 ];
 
@@ -172,11 +179,11 @@ const T = {
   uz:{tag:"Uy qulayligi uchun eng yaxshi tanlov!",tag2:"Idish-tovoq va uy buyumlari",call:"Call-markaz",site:"Sayt",
       del1:"O'zbekiston bo'ylab yetkazib berish mavjud",del2:"Buyurtma berish uchun aloqaga chiqing",tabB:"Filiallar",social:"Ijtimoiy tarmoqlarimiz:",tabM:"Menejerlar",
       mgrNote:"Buyurtma va savollar bo'yicha filial menejerlariga qo'ng'iroq qiling",open:"Hozir ochiq",closed:"Yopiq",
-      hours:"Ish vaqti",daily:"har kuni",map:"Xaritada",callBtn:"Qo'ng'iroq",branch:"filiali",manager:"Menejer"},
+      hours:"Ish vaqti",daily:"har kuni",map:"Xaritada",gmap:"Google xaritada ochish",ymap:"Yandex xaritada ochish",callBtn:"Qo'ng'iroq",branch:"filiali",manager:"Menejer"},
   ru:{tag:"Лучший выбор для уюта в доме!",tag2:"Посуда и товары для дома",call:"Колл-центр",site:"Сайт",
       del1:"Доставка по всему Узбекистану",del2:"Для заказа свяжитесь с нами",tabB:"Филиалы",social:"Наши соцсети:",tabM:"Менеджеры",
       mgrNote:"По заказам и вопросам звоните менеджерам филиалов",open:"Сейчас открыто",closed:"Закрыто",
-      hours:"Время работы",daily:"ежедневно",map:"На карте",callBtn:"Позвонить",branch:"филиал",manager:"Менеджер"}
+      hours:"Время работы",daily:"ежедневно",map:"На карте",gmap:"Открыть в Google Картах",ymap:"Открыть в Яндекс Картах",callBtn:"Позвонить",branch:"филиал",manager:"Менеджер"}
 };
 let lang = "uz";
 
@@ -211,8 +218,12 @@ function render(){
       </div>
       <div class="hours">${I.clock}<span>${t.hours}: <b>${b.open} – ${b.close}</b>, ${t.daily}</span></div>
       <div class="actions">
-        <a class="btn primary" href="${b.map}" target="_blank" rel="noopener">${I.map}${t.map}</a>
+        <button type="button" class="btn primary map-toggle" aria-expanded="false">${I.map}${t.map}</button>
         <a class="btn ghost" href="tel:${b.phone}">${I.phone}${t.callBtn}</a>
+      </div>
+      <div class="maps">
+        <a class="btn map-opt" href="${b.map}" target="_blank" rel="noopener"><i class="g">G</i>${t.gmap}</a>
+        <a class="btn map-opt" href="${b.ymap}" target="_blank" rel="noopener"><i class="y">Я</i>${t.ymap}</a>
       </div>
     </article>`;
   }).join("");
@@ -231,6 +242,12 @@ function render(){
   }).join("");
 }
 
+document.getElementById("branches").addEventListener("click", e => {
+  const tg = e.target.closest(".map-toggle"); if(!tg) return;
+  const card = tg.closest(".card"); const on = !card.classList.contains("maps-on");
+  document.querySelectorAll("#branches .card.maps-on").forEach(c => { c.classList.remove("maps-on"); c.querySelector(".map-toggle").setAttribute("aria-expanded","false"); });
+  if(on){ card.classList.add("maps-on"); tg.setAttribute("aria-expanded","true"); }
+});
 document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click", () => {
   document.querySelectorAll(".tab").forEach(b => { b.classList.toggle("on", b===btn); b.setAttribute("aria-selected", b===btn); });
   document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id===btn.dataset.tab));
@@ -241,7 +258,7 @@ document.querySelectorAll(".lang button").forEach(btn => btn.addEventListener("c
   render();
 }));
 render();
-setInterval(render, 60000);
+setInterval(() => { if(!document.querySelector('#branches .card.maps-on')) render(); }, 60000);
 </script>
 </body>
 </html>
